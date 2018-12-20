@@ -2,17 +2,35 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons.js';
 import Cockpit from '../components/Cockpit/Cockpit.js';
+import WithClass from '../hoc/WithClass';
 
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+        console.log('[App.js] - constructor()', props);
+        this.componentDidMount();
+        // not recommended using constructor
+    }
+
+    componentWillMount() {
+        console.log('[App.js] - componentWillMount()');
+    }
+
+    componentDidMount() {
+        console.log('[App.js] - componentDidMount()');
+    }
+
     state = {
         persons: [
-            { id: 'asfa1', name: 'Max', age: 28 },
+            { id: 'asfa1', name: 'Max', age: "28" },
             { id: 'vasdf1', name: 'Manu', age: 29 },
             { id: 'asdf11', name: 'Stephanie', age: 26 }
         ],
         otherState: 'some other value',
         showPersons: false
     }
+
 
     nameChangedHandler = ( event, id ) => {
         const personIndex = this.state.persons.findIndex( p => {
@@ -46,7 +64,9 @@ class App extends Component {
     }
 
     render () {
+        console.log('[App.js] - render()');
         let persons = null;
+
 
         if ( this.state.showPersons ) {
             persons = (
@@ -60,13 +80,13 @@ class App extends Component {
 
 
         return (
-            <div className={classes.App}>
-                <Cockpit 
+            <WithClass classes={ classes.App }>
+                <Cockpit
                     showPersons={ this.state.showPersons }
                     togglePersonsHandler={ this.togglePersonsHandler }
                     persons={ this.state.persons }/>
                 { persons }
-            </div>
+            </WithClass>
         );
         // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
     }
